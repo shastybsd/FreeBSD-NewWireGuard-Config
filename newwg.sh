@@ -18,40 +18,36 @@ if ( ${lanaddress}  == ) then
 endif
 
 if ( ! -e ${wgkey} ) then
+  clear
   echo "Precisa criar a chave do servidor."
   exit 0
 endif
 
 if ( ! -e ${wgconf} ) then
+  clear
   echo "Precisa existir o arquivo de configuração do servidor."
   exit 0
 endif
 
 if ( $#argv != 2 ) then
-
  clear
  echo "Syntax: newwg.sh <usuario> <ip>"
  exit 0
-
 endif
 
 if ( -e $argv[1].key ) then
-
  clear
  echo "Usuario já existe, usar outro."
  exit 0
-
 endif
 
 grep -q $argv[2] ${wgconf}
 echo $? > /tmp/verificaip
 if ( `cat /tmp/verificaip` == 0 ) then
-
  clear
  echo "Usar outro endereço IP, este já está em uso."
  exit 0
  rm /tmp/verificaip
-
 endif
 
 echo "Usuario: $argv[1], IP: $argv[2]"
