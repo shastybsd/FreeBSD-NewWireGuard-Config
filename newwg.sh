@@ -8,7 +8,7 @@ if ( ! -e ${wgkey} ) then
 endif
 
 if ( ! -e ${wgconf} ) then
- echo "Precisa existir o arquivo de configuração."
+ echo "Precisa existir o arquivo de configuração do servidor."
 endif
 
 if ( $#argv != 2 ) then
