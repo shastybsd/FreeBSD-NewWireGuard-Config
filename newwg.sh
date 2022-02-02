@@ -3,6 +3,14 @@
 set wgconf = /usr/local/etc/wireguard/wg0.conf
 set wgkey = /home/vpn/wg0.key
 
+if ( ! -e ${wgkey} ) then
+ echo "Precisa criar a chave do servidor."
+endif
+
+if ( ! -e ${wgconf} ) then
+ echo "Precisa existir o arquivo de configuração."
+endif
+
 if ( $#argv != 2 ) then
 
  clear
@@ -13,6 +21,7 @@ endif
 
 if ( -e $argv[1].key ) then
 
+ clear
  echo "Usuario ja existe, usar outro"
  exit 0
 
@@ -22,7 +31,8 @@ grep -q $argv[2] ${wgconf}
 echo $? > /tmp/verificaip
 if ( `cat /tmp/verificaip` == 0 ) then
 
- echo "Usar outro endereco IP"
+ clear
+ echo "Usar outro endereco IP, este ja esta em uso."
  exit 0
  rm /tmp/verificaip
 
