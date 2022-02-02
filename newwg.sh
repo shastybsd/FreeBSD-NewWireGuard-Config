@@ -22,7 +22,7 @@ endif
 if ( -e $argv[1].key ) then
 
  clear
- echo "Usuario ja existe, usar outro"
+ echo "Usuario já existe, usar outro."
  exit 0
 
 endif
@@ -32,7 +32,7 @@ echo $? > /tmp/verificaip
 if ( `cat /tmp/verificaip` == 0 ) then
 
  clear
- echo "Usar outro endereco IP, este ja esta em uso."
+ echo "Usar outro endereço IP, este já está em uso."
  exit 0
  rm /tmp/verificaip
 
@@ -54,7 +54,7 @@ set ip = $argv[2]
 # criando configuracao para cliente
 
 printf "[Interface]\n PrivateKey = $privkey\n Address = $ip\n\n" > $argv[1].conf
-printf "[Peer]\n PublicKey = $spubkey\n PresharedKey = $psk\n Endpoint = SERVERADDRESS:51820\n AllowedIPs = 172.16.34.0/24\n\n" >> $argv[1].conf
+printf "[Peer]\n PublicKey = $spubkey\n PresharedKey = $psk\n Endpoint = SERVERADDRESS:51820\n AllowedIPs = LANADDRESS/24\n\n" >> $argv[1].conf
 zip $argv[1].zip $argv[1].conf
 
 # Criando configuracao para o servidor
