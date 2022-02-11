@@ -4,6 +4,7 @@ set wgconf = /usr/local/etc/wireguard/wg0.conf
 set wgkey = /home/vpn/wg0.key
 set serveraddress =
 set lanaddress =
+set vpnaddress = 
 
 if ( ${serveraddress}  == ) then
   clear
@@ -14,6 +15,12 @@ endif
 if ( ${lanaddress}  == ) then
   clear
   echo "Alterar o lanaddress."
+  exit 0
+endif
+
+if ( ${vpnaddress}  == ) then
+  clear
+  echo "Alterar o vpnaddress."
   exit 0
 endif
 
@@ -66,11 +73,11 @@ set ip = $argv[2]
 # criando configuracao para cliente
 
 printf "[Interface]\n PrivateKey = $privkey\n Address = $ip\n\n" > $argv[1].conf
-printf "[Peer]\n PublicKey = $spubkey\n PresharedKey = $psk\n Endpoint = ${serveraddress}:51820\n AllowedIPs = ${lanaddress}/24\n\n" >> $argv[1].conf
+printf "[Peer]\n PublicKey = $spubkey\n PresharedKey = $psk\n Endpoint = ${serveraddress}:51820\n AllowedIPs = ${lanaddress}, ${vpnaddress}\n\n" >> $argv[1].conf
 zip $argv[1].zip $argv[1].conf
 
 # Criando configuracao para o servidor
 printf "# $argv[1]\n[Peer]\n PublicKey = $pubkey\n PresharedKey = $psk\n AllowedIPs = $ip/32\n\n" >> ${wgconf}
 
-/usr/local/etc/rc.d/wireguard restart
+/usr/local/etc/rc.d/wireguard reload
 
